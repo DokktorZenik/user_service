@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+
+app:
+  jwt-secret: ffb622df7e9926a3b77284dcb024a2ca667e1c474dd644321e90a16330107519
+  jwt-expiration-milliseconds: 1800000
+
+server:
+  port: 8083
