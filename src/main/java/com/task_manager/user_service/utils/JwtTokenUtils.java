@@ -25,12 +25,12 @@ public class JwtTokenUtils {
 
     private Key key(){return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(jwtSecret));}
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails, String encodedPassword){
         Map<String, Object> claims = new HashMap<>();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).toList();
+//        List<String> roles = userDetails.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority).toList();
 
-        claims.put("roles", roles);
+        claims.put("password", encodedPassword);
 
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime);
@@ -48,9 +48,13 @@ public class JwtTokenUtils {
         return getAllClaimsFromToken(token).getSubject();
     }
 
-    public List<String> getRoles(String token){
-        return getAllClaimsFromToken(token).get("roles", List.class);
+    public String getEncodedPassword(String token){
+        return getAllClaimsFromToken(token).get("password", String.class);
     }
+
+//    public List<String> getRoles(String token){
+//        return getAllClaimsFromToken(token).get("roles", List.class);
+//    }
 
     private Claims getAllClaimsFromToken(String token){
         return Jwts.parser()
@@ -58,6 +62,19 @@ public class JwtTokenUtils {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public void validateToken(String token){
+        Claims claims = Jwts.parser()
+                .verifyWith((SecretKey) key())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        Date expirationDate = claims.getExpiration();
+        if (expirationDate.before(new Date())) {
+            throw new RuntimeException("Token has expired");
+        }
     }
 
 }

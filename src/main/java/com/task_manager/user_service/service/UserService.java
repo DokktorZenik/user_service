@@ -49,4 +49,10 @@ public class UserService implements UserDetailsService {
         user.setRoles(Set.of(roleRepository.findByName("ROLE_USER").get()));
         return userRepository.save(user);
     }
+
+    public String getEncodedPassword(String username) {
+        User user = findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return user.getPassword();
+    }
 }

@@ -23,4 +23,9 @@ public class AuthController {
         return authService.createNewUser(registrationUserDto);
     }
 
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader){
+        return authService.validateToken(authHeader);
+    }
+
 }
