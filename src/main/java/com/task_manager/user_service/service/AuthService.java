@@ -4,7 +4,6 @@ import com.task_manager.user_service.dto.JwtRequest;
 import com.task_manager.user_service.dto.JwtResponse;
 import com.task_manager.user_service.dto.RegistrationUserDto;
 import com.task_manager.user_service.dto.UserDto;
-import com.task_manager.user_service.entity.Role;
 import com.task_manager.user_service.entity.User;
 import com.task_manager.user_service.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
