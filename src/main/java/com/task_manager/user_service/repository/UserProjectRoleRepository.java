@@ -12,4 +12,5 @@ public interface UserProjectRoleRepository extends JpaRepository<UserProjectRole
     Optional<String> findRoleByUserIdAndProjectId(Long userId, Long projectId);
 
     Optional<UserProjectRole> findByUserIdAndProjectId(Long userId, Long projectId);
+    boolean existsByUserIdAndProjectId(Long userId,Long projectId);
 }

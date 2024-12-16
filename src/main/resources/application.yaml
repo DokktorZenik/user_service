@@ -12,6 +12,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/userservice
     username: postgres
     password: 12345
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pitonovartem@gmail.com
+    password: acqs ddiv khxq mtxm
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          ssl.trust: smtp.gmail.com
 
 app:
   jwt-secret: ffb622df7e9926a3b77284dcb024a2ca667e1c474dd644321e90a16330107519
@@ -19,3 +31,9 @@ app:
 
 server:
   port: 8083
+
+javax:
+  net:
+    ssl:
+      trustStore: C:/Users/Lenovo/.jdks/openjdk-19.0.1/lib/security/newcacerts
+      trustStorePassword: changeit
