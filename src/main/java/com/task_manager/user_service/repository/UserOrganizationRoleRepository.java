@@ -11,4 +11,5 @@ public interface UserOrganizationRoleRepository extends JpaRepository<UserOrgani
     @Query("SELECT uor.role.name FROM UserOrganizationRole uor WHERE uor.userId = :userId AND uor.organizationId = :organizationId")
     Optional<String> findRoleByUserIdAndOrganizationId(Long userId, Long organizationId);
     Optional<UserOrganizationRole> findByUserIdAndOrganizationId(Long userId, Long organizationId);
+    boolean existsByUserIdAndOrganizationId(Long userId, Long organizationId);
 }

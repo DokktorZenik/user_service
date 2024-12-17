@@ -14,6 +14,9 @@ public interface UserProjectRoleRepository extends JpaRepository<UserProjectRole
 
     Optional<UserProjectRole> findByUserIdAndProjectId(Long userId, Long projectId);
 
+    boolean existsByUserIdAndProjectId(Long userId,Long projectId);
+
     @Query("SELECT upr.userId FROM UserProjectRole upr where upr.projectId = :projId")
     List<Long> findAllUsersByProjectId(Long projId);
+
 }
