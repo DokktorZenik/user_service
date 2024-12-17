@@ -1,9 +1,14 @@
 package com.task_manager.user_service.utils;
 
+import com.task_manager.user_service.entity.User;
+import com.task_manager.user_service.repository.UserRepository;
+import com.task_manager.user_service.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenUtils {
     @Value("${app.jwt-secret}")
     private String jwtSecret;
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtLifetime;
-
+    private final UserRepository userRepository;
     private Key key(){return Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(jwtSecret));}
 
     public String generateToken(UserDetails userDetails, String encodedPassword){
@@ -31,6 +37,8 @@ public class JwtTokenUtils {
 //                .map(GrantedAuthority::getAuthority).toList();
 
         claims.put("password", encodedPassword);
+
+        claims.put("userid", userRepository.findByUsername(userDetails.getUsername()).get().getId());
 
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime);

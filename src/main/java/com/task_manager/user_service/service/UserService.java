@@ -2,7 +2,9 @@ package com.task_manager.user_service.service;
 
 import com.task_manager.user_service.dto.RegistrationUserDto;
 import com.task_manager.user_service.entity.User;
+import com.task_manager.user_service.entity.UsersResponse;
 import com.task_manager.user_service.repository.RoleRepository;
+import com.task_manager.user_service.repository.UserProjectRoleRepository;
 import com.task_manager.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserProjectRoleRepository userProjectRoleRepository;
 
     public Optional<User> findByUsername(String username){
         return userRepository.findByUsername(username);
@@ -54,5 +58,11 @@ public class UserService implements UserDetailsService {
         User user = findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return user.getPassword();
+    }
+
+    public UsersResponse getUsersByProjectId(Long projectId){
+        List<Long> userIds = userProjectRoleRepository.findAllUsersByProjectId(projectId);
+        List<User> users = userIds.stream().map(id -> userRepository.findById(id).get()).toList();
+        return new UsersResponse(users);
     }
 }
