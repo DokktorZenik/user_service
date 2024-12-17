@@ -6,12 +6,10 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-#    url: ${DATASOURCE_URL}
-#    username: ${DATASOURCE_USERNAME}
-#    password: ${DATASOURCE_PASSWORD}
-    url: jdbc:postgresql://localhost:5432/userservice
-    username: postgres
-    password: 12345
+
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   mail:
     host: smtp.gmail.com
     port: 587

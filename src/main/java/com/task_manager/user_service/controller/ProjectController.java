@@ -24,4 +24,8 @@ public class ProjectController {
         projectService.deleteProject(projId, ownerId);
         return ResponseEntity.ok().build();
     }
+
+
+
+
 }
